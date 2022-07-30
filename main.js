@@ -26,9 +26,14 @@ class View {
         const repoSuggestItem = this.createElement('li', 'repo-suggest-item');
         repoSuggestItem.addEventListener('click', () => {
             this.createRepoItem(repoData.name, repoData.owner.login, repoData.stargazers_count)
+            this.clearRepoSuggest()
         })
         repoSuggestItem.textContent = `${repoData.name}`
         this.suggestList.append(repoSuggestItem)
+    }
+
+    clearRepoSuggest() {
+        this.suggestList.innerHTML = ''
     }
 
     createRepoItem(name, owner, stars) {
@@ -42,11 +47,6 @@ class View {
         this.repoList.append(repoItem);
     }
 
-    addRepoItem(repoData) {
-
-    }
-
-
 }
 
 const REPO_PER_PAGE = 5
@@ -58,7 +58,7 @@ class Search {
     }
 
     async searchRepos() {
-        this.clearRepoSuggest()
+        this.view.clearRepoSuggest()
         const searchValue = this.view.searchInput.value
         if (searchValue) {
             return await fetch(`https://api.github.com/search/repositories?q=${searchValue}&per_page=${REPO_PER_PAGE}`)
@@ -72,12 +72,8 @@ class Search {
                     }
                 })
         } else {
-            this.clearRepoSuggest()
+            this.view.clearRepoSuggest()
         }
-    }
-
-    clearRepoSuggest() {
-        this.view.suggestList.innerHTML = ''
     }
 
     debounce(func, wait, immediate) {
