@@ -27,6 +27,8 @@ class View {
         repoSuggestItem.addEventListener('click', () => {
             this.createRepoItem(repoData.name, repoData.owner.login, repoData.stargazers_count)
             this.clearRepoSuggest()
+            this.searchInput.value = ""
+
         })
         repoSuggestItem.textContent = `${repoData.name}`
         this.suggestList.append(repoSuggestItem)
